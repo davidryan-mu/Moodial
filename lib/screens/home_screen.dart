@@ -1,4 +1,7 @@
-import 'package:Moodial/widgets/dial.dart';
+import 'package:Moodial/widgets/home_screen/dial.dart';
+import 'package:Moodial/widgets/home_screen/add_entry_button.dart';
+import 'package:Moodial/widgets/home_screen/avatar.dart';
+import 'package:Moodial/widgets/home_screen/recent_entry_card.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -16,22 +19,38 @@ class _HomeScreenState extends State<HomeScreen> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            title: Text('Hey Ryan!'),
-            // Allows the user to reveal the app bar if they begin scrolling back
-            // up the list of items.
-            floating: true,
+            title: Text(
+              'Hey Ryan!',
+              style: TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 30.0,
+              ),
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  FeatherIcons.bell,
+                  color: Colors.white,
+                ),
+                onPressed: () => print('notif pressed'),
+              )
+            ],
           ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                CircleAvatar(
-                  radius: 50.0,
-                  backgroundImage: NetworkImage(
-                    'https://static.wikia.nocookie.net/avatar/images/7/79/Pilot_-_Aang.png/revision/latest/top-crop/width/360/height/360?cb=20120311133235',
-                  ),
+                Avatar(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text('How are you feeling right now?'),
                 ),
-                Text('How are you feeling right now?'),
                 Dial(),
+                AddEntryButton(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text('Recent Entries'),
+                ),
+                RecentEntryCard(),
               ],
             ),
           )

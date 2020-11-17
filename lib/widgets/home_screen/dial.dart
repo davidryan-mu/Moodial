@@ -67,6 +67,10 @@ class _DialState extends State<Dial> {
           ),
           Text(
             toMood(_currentSliderValue),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25.0,
+            ),
           ),
         ],
       ),
