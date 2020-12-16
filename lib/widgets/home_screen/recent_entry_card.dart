@@ -7,6 +7,9 @@ class RecentEntryCard extends StatefulWidget {
 }
 
 class _RecentEntryCardState extends State<RecentEntryCard> {
+  String username = 'david';
+  String password = 'abc123';
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -16,11 +19,11 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
           width: 300,
           height: 100,
           child: FutureBuilder(
-            future: ApiService.login(),
+            future: ApiService.login(username, password),
             builder: (context, snapshot) {
-              final response = snapshot.data;
+              final user = snapshot.data;
               if (snapshot.connectionState == ConnectionState.done) {
-                return Text(response['msg']);
+                return Text(user.loginStatus);
               } else if (snapshot.hasError) {
                 return Text('Error');
               }

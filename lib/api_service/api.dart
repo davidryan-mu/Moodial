@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
 class URLS {
@@ -7,12 +7,46 @@ class URLS {
 }
 
 class ApiService {
-  static Future login() async {
-    final response = await http.get('${URLS.BASE_URL}/entry');
-    if (response.statusCode == 401) {
-      return json.decode(response.body);
+  static Future<User> login(username, password) async {
+    final response = await http.post(
+      '${URLS.BASE_URL}/login',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'password': password,
+      }),
+    );
+    if (response.statusCode == 200) {
+      //Successful log in
+      return User.fromJSON(jsonDecode(response.body));
+    } else if (response.statusCode == 401) {
+      //Invalid username/password
+      return User.fromJSON(jsonDecode(response.body));
     } else {
-      return null;
+      throw Exception('Failed to log in due to server error.');
+    }
+  }
+
+  static Future<String> register(username, email, password) async {
+    final response = await http.post(
+      '${URLS.BASE_URL}/register',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'email': email,
+        'password': password,
+      }),
+    );
+    if (response.statusCode == 201) {
+      //Successful registration
+      return jsonDecode(response.body)['message'] + '\n Please log in.';
+    } else {
+      // Error message
+      return jsonDecode(response.body)['message'];
     }
   }
 }
