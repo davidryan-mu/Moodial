@@ -1,3 +1,4 @@
+import 'package:Moodial/models/user.dart';
 import 'package:Moodial/widgets/home_screen/dial.dart';
 import 'package:Moodial/widgets/home_screen/add_entry_button.dart';
 import 'package:Moodial/widgets/home_screen/avatar.dart';
@@ -6,12 +7,25 @@ import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
+  final User user;
+
+  HomeScreen({
+    this.user,
+  });
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState(
+        user: this.user,
+      );
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentTab = 0;
+  User user;
+
+  _HomeScreenState({
+    this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,26 +33,29 @@ class _HomeScreenState extends State<HomeScreen> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            title: Text(
-              'Hey Ryan!',
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 30.0,
-              ),
-            ),
             actions: <Widget>[
               IconButton(
                 icon: Icon(
                   FeatherIcons.bell,
                   color: Colors.white,
                 ),
-                onPressed: () => print('notif pressed'),
+                onPressed: () => print(user.username),
               )
             ],
           ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20.0, 15.0, 0.0, 0.0),
+                  child: Text(
+                    user.username != '' ? 'Hey ' + user.username + '!' : 'Hey!',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30.0,
+                    ),
+                  ),
+                ),
                 Avatar(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),

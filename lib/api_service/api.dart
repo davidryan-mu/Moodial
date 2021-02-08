@@ -20,6 +20,7 @@ class ApiService {
     );
     if (response.statusCode == 200) {
       //Successful log in
+
       return User.fromJSON(jsonDecode(response.body));
     } else if (response.statusCode == 401) {
       //Invalid username/password
@@ -29,7 +30,7 @@ class ApiService {
     }
   }
 
-  static Future<String> register(username, email, password) async {
+  static Future<int> register(username, email, password) async {
     final response = await http.post(
       '${URLS.BASE_URL}/register',
       headers: <String, String>{
@@ -43,10 +44,12 @@ class ApiService {
     );
     if (response.statusCode == 201) {
       //Successful registration
-      return jsonDecode(response.body)['message'] + '\n Please log in.';
-    } else {
+      return 201;
+    } else if (response.statusCode == 400) {
       // Error message
-      return jsonDecode(response.body)['message'];
+      return 400;
+    } else {
+      return 404;
     }
   }
 }

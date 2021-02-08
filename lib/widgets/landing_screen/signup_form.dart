@@ -2,31 +2,31 @@ import 'package:Moodial/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:Moodial/api_service/api.dart';
 
-class LoginForm extends StatefulWidget {
+class SignUpForm extends StatefulWidget {
   final Function callback;
   final bool isLoggedIn;
   final User user;
 
-  LoginForm({this.callback, this.isLoggedIn, this.user});
+  SignUpForm({
+    this.callback,
+    this.isLoggedIn,
+    this.user,
+  });
 
   @override
-  _LoginFormState createState() => _LoginFormState(
+  _SignUpFormState createState() => _SignUpFormState(
         callback: this.callback,
         isLoggedIn: this.isLoggedIn,
         user: this.user,
       );
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _SignUpFormState extends State<SignUpForm> {
   Function callback;
   bool isLoggedIn;
   User user;
 
-  _LoginFormState({
-    this.callback,
-    this.isLoggedIn,
-    this.user,
-  });
+  _SignUpFormState({this.callback, this.isLoggedIn, this.user});
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -37,12 +37,14 @@ class _LoginFormState extends State<LoginForm> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     usernameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -71,6 +73,21 @@ class _LoginFormState extends State<LoginForm> {
               padding: const EdgeInsets.all(20.0),
             ),
             TextFormField(
+              controller: emailController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                labelText: 'Email',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+            ),
+            TextFormField(
               controller: passwordController,
               validator: (value) {
                 if (value.isEmpty) {
@@ -88,21 +105,42 @@ class _LoginFormState extends State<LoginForm> {
                 vertical: 10.0,
               ),
               child: ElevatedButton(
-                child: Text('Log In'),
+                child: Text('Sign Up'),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     Scaffold.of(context).showSnackBar(
                         SnackBar(content: Text('Processing data')));
-                    ApiService.login(
+                    ApiService.register(
                       usernameController.text,
+                      emailController.text,
                       passwordController.text,
-                    ).then((user) {
-                      if (user.loginStatus == 'User logged in') {
-                        user.username = usernameController.text;
-                        this.callback(true, user);
-                      } else {
+                    ).then((statusCode) {
+                      if (statusCode == 200 || statusCode == 201) {
                         Scaffold.of(context).showSnackBar(
-                            SnackBar(content: Text(user.loginStatus)));
+                          SnackBar(
+                              content: Text(
+                                  'Successful sign up. Logging you in...')),
+                        );
+                        // After successful sign up, log the user in
+                        ApiService.login(
+                          usernameController.text,
+                          passwordController.text,
+                        ).then((user) {
+                          if (user.loginStatus == 'User logged in') {
+                            this.callback(true, user);
+                          } else {
+                            Scaffold.of(context).showSnackBar(
+                                SnackBar(content: Text(user.loginStatus)));
+                          }
+                        });
+                      } else if (statusCode == 400) {
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                            content:
+                                Text('User already exists. Try new data...')));
+                      } else {
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                            content:
+                                Text('Error signing up. Please try again...')));
                       }
                     });
                   }

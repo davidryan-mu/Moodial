@@ -3,6 +3,8 @@ import 'package:Moodial/screens/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'models/user.dart';
+
 void main() => runApp(Moodial());
 
 class Moodial extends StatefulWidget {
@@ -12,10 +14,12 @@ class Moodial extends StatefulWidget {
 
 class _MoodialState extends State<Moodial> {
   bool _isLoggedIn = false;
+  User _user;
 
-  callback(value) {
+  callback(isLoggedIn, user) {
     setState(() {
-      _isLoggedIn = value;
+      _isLoggedIn = isLoggedIn;
+      _user = user;
     });
   }
 
@@ -25,17 +29,20 @@ class _MoodialState extends State<Moodial> {
       title: 'Moodial',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xFF71E9A1),
+        primaryColor: Color(0xFF71E9A2),
         scaffoldBackgroundColor: Color(0xFFFEFEFE),
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
       home: _isLoggedIn
-          ? HomeScreen()
+          ? HomeScreen(
+              user: this._user,
+            )
           : LandingScreen(
               callback: this.callback,
               isLoggedIn: this._isLoggedIn,
+              user: this._user,
             ),
     );
   }
