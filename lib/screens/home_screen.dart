@@ -1,8 +1,10 @@
+import 'package:Moodial/api_service/api.dart';
 import 'package:Moodial/models/user.dart';
 import 'package:Moodial/widgets/home_screen/dial.dart';
 import 'package:Moodial/widgets/home_screen/add_entry_button.dart';
 import 'package:Moodial/widgets/home_screen/avatar.dart';
 import 'package:Moodial/widgets/home_screen/recent_entry_card.dart';
+import 'package:async/async.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -21,11 +23,26 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentTab = 0;
+  int _dialState = 0;
   User user;
+
+  AsyncMemoizer _memoizer = AsyncMemoizer();
 
   _HomeScreenState({
     this.user,
   });
+
+  dialCallback(dialState) {
+    setState(() {
+      _dialState = dialState;
+    });
+  }
+
+  _fetchLastEntry() {
+    return this._memoizer.runOnce(() async {
+      return ApiService.getEntry(user.userToken);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   FeatherIcons.bell,
                   color: Colors.white,
                 ),
-                onPressed: () => print(user.username),
+                onPressed: () => print('notif pressed'),
               )
             ],
           ),
@@ -47,9 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
             delegate: SliverChildListDelegate(
               [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0, 15.0, 0.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0.0, 0.0),
                   child: Text(
-                    user.username != '' ? 'Hey ' + user.username + '!' : 'Hey!',
+                    user.username != null
+                        ? 'Welcome back, ' + user.username + '!'
+                        : 'Welcome to Moodial!',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
@@ -58,16 +77,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Avatar(),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Text('How are you feeling right now?'),
                 ),
-                Dial(),
-                AddEntryButton(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Text('Recent Entries'),
+                Dial(
+                  callback: this.dialCallback,
                 ),
-                RecentEntryCard(),
+                AddEntryButton(
+                  dialState: this._dialState,
+                  key: UniqueKey(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Text('Recent Entries',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                FutureBuilder(
+                  future: _fetchLastEntry(),
+                  builder: (context, snapshot) {
+                    final entry = snapshot.data;
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.data != null) {
+                      return RecentEntryCard(
+                        entry: entry,
+                      );
+                    } else if (snapshot.connectionState ==
+                            ConnectionState.done &&
+                        snapshot.data == null) {
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(15.0, 5.0, 0, 0),
+                        child: Text(
+                            'Add your first entry to see recent entries here!'),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(15.0, 5.0, 0, 0),
+                        child: Text('Error: ' + snapshot.error.toString()),
+                      );
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
+                )
               ],
             ),
           )

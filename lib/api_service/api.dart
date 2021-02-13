@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:Moodial/models/entry.dart';
+
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,7 +22,6 @@ class ApiService {
     );
     if (response.statusCode == 200) {
       //Successful log in
-
       return User.fromJSON(jsonDecode(response.body));
     } else if (response.statusCode == 401) {
       //Invalid username/password
@@ -50,6 +51,46 @@ class ApiService {
       return 400;
     } else {
       return 404;
+    }
+  }
+
+  static Future<Entry> getEntry(userToken) async {
+    final response = await http.get(
+      '${URLS.BASE_URL}/entry',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + userToken,
+      },
+    );
+    if (response.statusCode == 200) {
+      //Successful
+      return Entry.fromJSON(jsonDecode(response.body));
+    } else {
+      // Error message
+      throw Exception('Failed to get entry due to server error.');
+    }
+  }
+
+  static Future<Entry> postEntry(userToken, formData) async {
+    final response = await http.post(
+      '${URLS.BASE_URL}/entry',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + userToken,
+      },
+      body: jsonEncode(<String, String>{
+        'mood': formData['mood'],
+        'sleep': formData['sleep'],
+        'iritability': formData['iritability'],
+        'medication': toEncodable
+      }),
+    );
+    if (response.statusCode == 200) {
+      //Successful
+      return Entry.fromJSON(jsonDecode(response.body));
+    } else {
+      // Error message
+      throw Exception('Failed to get entry due to server error.');
     }
   }
 }

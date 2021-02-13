@@ -68,6 +68,8 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 labelText: 'Username',
               ),
+              enableSuggestions: false,
+              autocorrect: false,
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -83,6 +85,8 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 labelText: 'Email',
               ),
+              enableSuggestions: false,
+              autocorrect: false,
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -98,6 +102,9 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 labelText: 'Password',
               ),
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(

@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
-class Dial extends StatefulWidget {
+class AddEntryDial extends StatefulWidget {
+  final double sliderValue;
   final Function callback;
 
-  Dial({this.callback});
+  AddEntryDial({this.sliderValue, this.callback});
 
   @override
-  _DialState createState() => _DialState(
+  _AddEntryDialState createState() => _AddEntryDialState(
+        sliderValue: this.sliderValue,
         callback: this.callback,
       );
 }
 
-class _DialState extends State<Dial> {
-  double _currentSliderValue = 0;
+class _AddEntryDialState extends State<AddEntryDial> {
+  double sliderValue;
   Function callback;
 
-  _DialState({this.callback});
+  _AddEntryDialState({this.sliderValue, this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -64,23 +66,29 @@ class _DialState extends State<Dial> {
               inactiveTickMarkColor: Theme.of(context).primaryColor,
             ),
             child: Slider(
-                value: _currentSliderValue,
+                value: sliderValue,
                 min: 0,
                 max: 4,
                 divisions: 4,
                 onChanged: (double value) {
                   setState(() {
-                    _currentSliderValue = value;
+                    sliderValue = value;
                   });
 
                   this.callback(value.round());
                 }),
           ),
-          Text(
-            toMood(_currentSliderValue),
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 25.0,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                toMood(sliderValue),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                ),
+              ),
             ),
           ),
         ],

@@ -66,6 +66,8 @@ class _LoginFormState extends State<LoginForm> {
               decoration: InputDecoration(
                 labelText: 'Username',
               ),
+              enableSuggestions: false,
+              autocorrect: false,
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -81,6 +83,9 @@ class _LoginFormState extends State<LoginForm> {
               decoration: InputDecoration(
                 labelText: 'Password',
               ),
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
