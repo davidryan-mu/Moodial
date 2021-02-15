@@ -86,14 +86,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 AddEntryButton(
                   dialState: this._dialState,
                   key: UniqueKey(),
+                  userToken: this.user.userToken,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 10.0, 0, 0),
                   child: Text('Recent Entries',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
                 FutureBuilder(
-                  future: _fetchLastEntry(),
+                  future: ApiService.getEntry(user.userToken),
                   builder: (context, snapshot) {
                     final entry = snapshot.data;
                     if (snapshot.connectionState == ConnectionState.done &&
@@ -110,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             'Add your first entry to see recent entries here!'),
                       );
                     } else if (snapshot.hasError) {
+                      print(snapshot.error.toString());
                       return Padding(
                         padding: EdgeInsets.fromLTRB(15.0, 5.0, 0, 0),
                         child: Text('Error: ' + snapshot.error.toString()),

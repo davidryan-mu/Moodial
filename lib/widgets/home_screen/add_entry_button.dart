@@ -1,3 +1,4 @@
+import 'package:Moodial/api_service/api.dart';
 import 'package:Moodial/widgets/home_screen/add_entry_dial.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -8,22 +9,33 @@ import 'add_entry_form.dart';
 class AddEntryButton extends StatefulWidget {
   final int dialState;
   final UniqueKey key;
+  final String userToken;
 
-  AddEntryButton({this.dialState, this.key});
+  AddEntryButton({
+    this.dialState,
+    this.key,
+    this.userToken,
+  });
 
   @override
   _AddEntryButtonState createState() => _AddEntryButtonState(
         dialState: this.dialState,
         key: this.key,
+        userToken: this.userToken,
       );
 }
 
 class _AddEntryButtonState extends State<AddEntryButton> {
   int dialState;
   UniqueKey key;
+  String userToken;
   Map<String, dynamic> formState;
 
-  _AddEntryButtonState({this.dialState, this.key});
+  _AddEntryButtonState({
+    this.dialState,
+    this.key,
+    this.userToken,
+  });
 
   sliderCallback(sliderValue) {
     setState(() {
@@ -104,7 +116,14 @@ class _AddEntryButtonState extends State<AddEntryButton> {
                               child: Text('SAVE'),
                               onPressed: () {
                                 formState['mood'] = dialState;
-                                print(formState);
+                                if (formState['valid'] == true) {
+                                  ApiService.postEntry(
+                                    userToken,
+                                    formState,
+                                  ).then((response) {
+                                    Navigator.pop(context);
+                                  });
+                                }
                               },
                               style: ButtonStyle(
                                   backgroundColor:

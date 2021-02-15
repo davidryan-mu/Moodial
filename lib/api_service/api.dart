@@ -71,23 +71,36 @@ class ApiService {
     }
   }
 
-  static Future<Entry> postEntry(userToken, formData) async {
+  static Future<int> postEntry(userToken, formData) async {
     final response = await http.post(
       '${URLS.BASE_URL}/entry',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ' + userToken,
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, Object>{
         'mood': formData['mood'],
-        'sleep': formData['sleep'],
+        'sleep': int.parse(formData['sleep']),
         'iritability': formData['iritability'],
-        'medication': toEncodable
+        'medication': [
+          {
+            'name': formData['medName'].toString(),
+            'dose': formData['medDose'].toString(),
+          }
+        ],
+        'diet': [
+          {
+            'food': formData['dietFood'].toString(),
+            'amount': formData['dietAmount'].toString(),
+          }
+        ],
+        'exercise': formData['exercise'].toString(),
+        'notes': formData['notes'].toString(),
       }),
     );
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       //Successful
-      return Entry.fromJSON(jsonDecode(response.body));
+      return response.statusCode;
     } else {
       // Error message
       throw Exception('Failed to get entry due to server error.');
