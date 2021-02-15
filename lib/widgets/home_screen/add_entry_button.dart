@@ -10,11 +10,13 @@ class AddEntryButton extends StatefulWidget {
   final int dialState;
   final UniqueKey key;
   final String userToken;
+  final Function callback;
 
   AddEntryButton({
     this.dialState,
     this.key,
     this.userToken,
+    this.callback,
   });
 
   @override
@@ -22,6 +24,7 @@ class AddEntryButton extends StatefulWidget {
         dialState: this.dialState,
         key: this.key,
         userToken: this.userToken,
+        callback: this.callback,
       );
 }
 
@@ -29,12 +32,15 @@ class _AddEntryButtonState extends State<AddEntryButton> {
   int dialState;
   UniqueKey key;
   String userToken;
+  Function callback;
+
   Map<String, dynamic> formState;
 
   _AddEntryButtonState({
     this.dialState,
     this.key,
     this.userToken,
+    this.callback,
   });
 
   sliderCallback(sliderValue) {
@@ -76,7 +82,10 @@ class _AddEntryButtonState extends State<AddEntryButton> {
                           icon: Icon(FeatherIcons.x),
                           color: Colors.white,
                           iconSize: 40.0,
-                          onPressed: () => Navigator.pop(context)),
+                          onPressed: () {
+                            this.callback(false);
+                            Navigator.pop(context);
+                          }),
                     ),
                     Container(
                       height: 660,
@@ -121,6 +130,7 @@ class _AddEntryButtonState extends State<AddEntryButton> {
                                     userToken,
                                     formState,
                                   ).then((response) {
+                                    this.callback(false);
                                     Navigator.pop(context);
                                   });
                                 }

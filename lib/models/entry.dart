@@ -1,4 +1,5 @@
 class Entry {
+  int id;
   String date;
   String time;
   int mood;
@@ -10,6 +11,7 @@ class Entry {
   String notes;
 
   Entry({
+    this.id,
     this.date,
     this.time,
     this.mood,
@@ -26,6 +28,7 @@ class Entry {
     if (json.isNotEmpty) {
       json = json[0];
       return Entry(
+        id: json['_id'],
         date: json['date'],
         time: json['time'],
         mood: json['mood'],

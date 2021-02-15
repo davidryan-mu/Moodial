@@ -106,4 +106,40 @@ class ApiService {
       throw Exception('Failed to get entry due to server error.');
     }
   }
+
+  static Future<int> updateEntry(userToken, formData, id) async {
+    final response = await http.put(
+      '${URLS.BASE_URL}/entry/' + id.toString(),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + userToken,
+      },
+      body: jsonEncode(<String, Object>{
+        'mood': formData['mood'],
+        'sleep': int.parse(formData['sleep']),
+        'iritability': formData['iritability'],
+        'medication': [
+          {
+            'name': formData['medName'].toString(),
+            'dose': formData['medDose'].toString(),
+          }
+        ],
+        'diet': [
+          {
+            'food': formData['dietFood'].toString(),
+            'amount': formData['dietAmount'].toString(),
+          }
+        ],
+        'exercise': formData['exercise'].toString(),
+        'notes': formData['notes'].toString(),
+      }),
+    );
+    if (response.statusCode == 204) {
+      //Successful
+      return response.statusCode;
+    } else {
+      // Error message
+      throw Exception('Failed to get entry due to server error.');
+    }
+  }
 }

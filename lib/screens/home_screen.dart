@@ -24,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentTab = 0;
   int _dialState = 0;
+  bool _firstLoadFlag = true;
   User user;
 
   AsyncMemoizer _memoizer = AsyncMemoizer();
@@ -35,6 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
   dialCallback(dialState) {
     setState(() {
       _dialState = dialState;
+    });
+  }
+
+  modalCallback(flag) {
+    setState(() {
+      _firstLoadFlag = flag;
     });
   }
 
@@ -87,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   dialState: this._dialState,
                   key: UniqueKey(),
                   userToken: this.user.userToken,
+                  callback: this.modalCallback,
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15.0, 10.0, 0, 0),
@@ -94,13 +102,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
                 FutureBuilder(
-                  future: ApiService.getEntry(user.userToken),
+                  future: _firstLoadFlag
+                      ? _fetchLastEntry()
+                      : ApiService.getEntry(user.userToken),
                   builder: (context, snapshot) {
                     final entry = snapshot.data;
                     if (snapshot.connectionState == ConnectionState.done &&
                         snapshot.data != null) {
                       return RecentEntryCard(
                         entry: entry,
+                        userToken: user.userToken,
+                        callback: this.modalCallback,
                       );
                     } else if (snapshot.connectionState ==
                             ConnectionState.done &&
@@ -111,7 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             'Add your first entry to see recent entries here!'),
                       );
                     } else if (snapshot.hasError) {
-                      print(snapshot.error.toString());
                       return Padding(
                         padding: EdgeInsets.fromLTRB(15.0, 5.0, 0, 0),
                         child: Text('Error: ' + snapshot.error.toString()),
