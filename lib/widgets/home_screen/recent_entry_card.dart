@@ -44,7 +44,6 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
 
   sliderCallback(sliderValue) {
     setState(() {
-      print(dialState);
       this.dialState = sliderValue;
     });
   }
@@ -62,6 +61,28 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
       });
       _overwritten = !_overwritten;
     }
+  }
+
+  String toMood(double value) {
+    int valueToInt = value.round();
+    switch (valueToInt) {
+      case 0:
+        return 'Awful';
+        break;
+      case 1:
+        return 'Poor';
+        break;
+      case 2:
+        return 'Okay';
+        break;
+      case 3:
+        return 'Good';
+        break;
+      case 4:
+        return 'Great';
+    }
+
+    return 'Error';
   }
 
   showModal() {
@@ -108,9 +129,11 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                            DateFormat('dd-MM-yyyy').format(DateTime.now()) +
-                                ' • ' +
-                                DateFormat('H:mm').format(DateTime.now())),
+                          DateFormat('dd-MM-yyyy')
+                                  .format(dateFormat.parse(entry.date)) +
+                              ' • ' +
+                              entry.time.substring(0, 5),
+                        ),
                       ),
                     ),
                     UpdateEntryForm(this.formCallback, this.entry),
@@ -123,7 +146,6 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                       child: ElevatedButton(
                         child: Text('UPDATE'),
                         onPressed: () {
-                          print(dialState);
                           formState['mood'] = dialState;
                           if (formState['valid'] == true) {
                             ApiService.updateEntry(
@@ -187,7 +209,7 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Mood ' + entry.mood.toString(),
+                            toMood(entry.mood.toDouble()),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25.0,

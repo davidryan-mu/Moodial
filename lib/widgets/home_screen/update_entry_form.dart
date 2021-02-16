@@ -54,6 +54,17 @@ class _UpdateEntryFormState extends State<UpdateEntryForm> {
       exerciseController.text = entry.exercise;
       notesController.text = entry.notes;
       _overwritten = !_overwritten;
+
+      setState(() {
+        _iritabilityDropdownValue = entry.iritability.toInt();
+        formData['sleep'] = entry.sleep.toString();
+        formData['medName'] = entry.medication.name;
+        formData['medDose'] = entry.medication.dose;
+        formData['dietFood'] = entry.diet.food;
+        formData['dietAmount'] = entry.diet.amount;
+        formData['exercise'] = entry.exercise;
+        formData['notes'] = entry.notes;
+      });
     }
   }
 
@@ -73,17 +84,6 @@ class _UpdateEntryFormState extends State<UpdateEntryForm> {
   @override
   Widget build(BuildContext context) {
     overwriteTextControllers();
-
-    setState(() {
-      _iritabilityDropdownValue = entry.iritability.toInt();
-      formData['sleep'] = entry.sleep.toString();
-      formData['medName'] = entry.medication.name;
-      formData['medDose'] = entry.medication.dose;
-      formData['dietFood'] = entry.diet.food;
-      formData['dietAmount'] = entry.diet.amount;
-      formData['exercise'] = entry.exercise;
-      formData['notes'] = entry.notes;
-    });
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20.0, 10, 20.0, 0),
@@ -111,10 +111,12 @@ class _UpdateEntryFormState extends State<UpdateEntryForm> {
                         labelStyle: TextStyle(fontSize: 14.0)),
                     onChanged: (value) {
                       if (_formKey.currentState.validate()) {
+                        print(formData);
                         setState(() {
                           formData['valid'] = true;
                           formData['sleep'] = sleepController.text;
                         });
+                        print(formData);
                         this.callback(formData);
                       }
                     },
