@@ -12,7 +12,7 @@ class Dial extends StatefulWidget {
 }
 
 class _DialState extends State<Dial> {
-  double _currentSliderValue = 0;
+  double _currentSliderValue = 1;
   Function callback;
 
   _DialState({this.callback});
@@ -25,7 +25,7 @@ class _DialState extends State<Dial> {
           Padding(
             padding: const EdgeInsets.only(
               left: 20.0,
-              top: 20.0,
+              top: 10.0,
               right: 20.0,
               bottom: 0,
             ),
@@ -33,24 +33,32 @@ class _DialState extends State<Dial> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SliderIndicator(
-                  value: ': \u0028',
-                  color: Colors.red,
+                  value: '🙂',
+                  color: Color(0xFFFBDE60),
                 ),
                 SliderIndicator(
-                  value: ': \u002F',
-                  color: Colors.pink,
+                  value: '🙁',
+                  color: Color(0xFF5C8FC1),
                 ),
                 SliderIndicator(
-                  value: ': \u007C',
-                  color: Colors.blue,
+                  value: '😮',
+                  color: Color(0xFF3FA5C0),
                 ),
                 SliderIndicator(
-                  value: ': \u0029',
-                  color: Colors.yellow,
+                  value: '🤢',
+                  color: Color(0xFF9F78BA),
                 ),
                 SliderIndicator(
-                  value: ':D',
-                  color: Colors.green,
+                  value: '😡',
+                  color: Color(0xFFE84A6A),
+                ),
+                SliderIndicator(
+                  value: '😨',
+                  color: Color(0xFF46C365),
+                ),
+                SliderIndicator(
+                  value: '😔',
+                  color: Color(0xFF96C895),
                 ),
               ],
             ),
@@ -65,9 +73,9 @@ class _DialState extends State<Dial> {
             ),
             child: Slider(
                 value: _currentSliderValue,
-                min: 0,
-                max: 4,
-                divisions: 4,
+                min: 1,
+                max: 7,
+                divisions: 6,
                 onChanged: (double value) {
                   setState(() {
                     _currentSliderValue = value;
@@ -97,14 +105,23 @@ class SliderIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        color: color,
-        child: Center(
-          child: Text(
-            value,
-            style: TextStyle(),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 20.0,
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: color),
+            ),
           ),
-        ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 25.0,
+            ),
+          )
+        ],
       ),
     );
   }
@@ -113,20 +130,24 @@ class SliderIndicator extends StatelessWidget {
 String toMood(double value) {
   int valueToInt = value.round();
   switch (valueToInt) {
-    case 0:
-      return 'Awful';
-      break;
     case 1:
-      return 'Poor';
+      return 'Happy';
       break;
     case 2:
-      return 'Okay';
+      return 'Sad';
       break;
     case 3:
-      return 'Good';
+      return 'Surprised';
       break;
     case 4:
-      return 'Great';
+      return 'Disgusted';
+      break;
+    case 5:
+      return 'Angry';
+    case 6:
+      return 'Fearful';
+    case 7:
+      return 'Bad';
   }
 
   return 'Error';

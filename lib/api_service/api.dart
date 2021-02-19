@@ -142,4 +142,26 @@ class ApiService {
       throw Exception('Failed to get entry due to server error.');
     }
   }
+
+  static Future<String> deleteUser(userToken, username) async {
+    final response = await http.delete(
+      '${URLS.BASE_URL}/deleteuser/' + username,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + userToken,
+      },
+    );
+    if (response.statusCode == 204) {
+      //Successful delete
+      return 'User and entries deleted';
+    } else if (response.statusCode == 401) {
+      //auth error
+      return 'You do not have the authorization for this';
+    } else if (response.statusCode == 404) {
+      //user not found
+      return 'User does not exist';
+    } else {
+      throw Exception('Failed to log in due to server error.');
+    }
+  }
 }

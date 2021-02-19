@@ -111,12 +111,10 @@ class _UpdateEntryFormState extends State<UpdateEntryForm> {
                         labelStyle: TextStyle(fontSize: 14.0)),
                     onChanged: (value) {
                       if (_formKey.currentState.validate()) {
-                        print(formData);
                         setState(() {
                           formData['valid'] = true;
                           formData['sleep'] = sleepController.text;
                         });
-                        print(formData);
                         this.callback(formData);
                       }
                     },

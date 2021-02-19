@@ -1,5 +1,6 @@
 import 'package:Moodial/screens/home_screen.dart';
 import 'package:Moodial/screens/landing_screen.dart';
+import 'package:Moodial/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,12 +16,50 @@ class Moodial extends StatefulWidget {
 class _MoodialState extends State<Moodial> {
   bool _isLoggedIn = false;
   User _user;
+  int _navPos = 0;
 
-  callback(isLoggedIn, user) {
+  landingCallback(isLoggedIn, user) {
     setState(() {
       _isLoggedIn = isLoggedIn;
       _user = user;
     });
+  }
+
+  navPosCallback(navPos) {
+    setState(() {
+      _navPos = navPos;
+    });
+  }
+
+  logOutCallback() {
+    setState(() {
+      _isLoggedIn = false;
+    });
+  }
+
+  buildScreenOnNav(_navPos) {
+    switch (_navPos) {
+      case 0:
+        return HomeScreen(
+          user: this._user,
+          navPosCallback: this.navPosCallback,
+        );
+      case 1:
+        return Text('stats');
+      case 2:
+        return Text('calendar');
+      case 3:
+        return SettingsScreen(
+          user: this._user,
+          navPosCallback: this.navPosCallback,
+          logOutCallback: this.logOutCallback,
+        );
+      default:
+        return HomeScreen(
+          user: this._user,
+          navPosCallback: this.navPosCallback,
+        );
+    }
   }
 
   @override
@@ -36,11 +75,9 @@ class _MoodialState extends State<Moodial> {
         ),
       ),
       home: _isLoggedIn
-          ? HomeScreen(
-              user: this._user,
-            )
+          ? buildScreenOnNav(_navPos)
           : LandingScreen(
-              callback: this.callback,
+              callback: this.landingCallback,
               isLoggedIn: this._isLoggedIn,
               user: this._user,
             ),

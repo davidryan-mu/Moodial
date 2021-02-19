@@ -4,33 +4,39 @@ import 'package:Moodial/widgets/home_screen/dial.dart';
 import 'package:Moodial/widgets/home_screen/add_entry_button.dart';
 import 'package:Moodial/widgets/home_screen/avatar.dart';
 import 'package:Moodial/widgets/home_screen/recent_entry_card.dart';
+import 'package:Moodial/widgets/navbar.dart';
 import 'package:async/async.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   final User user;
+  final Function navPosCallback;
 
   HomeScreen({
     this.user,
+    this.navPosCallback,
   });
 
   @override
   _HomeScreenState createState() => _HomeScreenState(
         user: this.user,
+        navPosCallback: this.navPosCallback,
       );
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentTab = 0;
-  int _dialState = 0;
+  int _dialState = 1;
   bool _firstLoadFlag = true;
   User user;
+  Function navPosCallback;
 
   AsyncMemoizer _memoizer = AsyncMemoizer();
 
   _HomeScreenState({
     this.user,
+    this.navPosCallback,
   });
 
   dialCallback(dialState) {
@@ -136,44 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentTab,
-        onTap: (int value) {
-          setState(() {
-            _currentTab = value;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(
-              FeatherIcons.home,
-              size: 33,
-            ),
-          ),
-          BottomNavigationBarItem(
-            label: 'Stats',
-            icon: Icon(
-              FeatherIcons.barChart2,
-              size: 33,
-            ),
-          ),
-          BottomNavigationBarItem(
-            label: 'Calendar',
-            icon: Icon(
-              FeatherIcons.calendar,
-              size: 33,
-            ),
-          ),
-          BottomNavigationBarItem(
-            label: 'Settings',
-            icon: Icon(
-              FeatherIcons.settings,
-              size: 33,
-            ),
-          ),
-        ],
+      bottomNavigationBar: NavBar(
+        currentTab: _currentTab,
+        callback: navPosCallback,
       ),
     );
   }
