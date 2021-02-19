@@ -5,12 +5,14 @@ class User {
   final String userToken;
   String username;
   Entry lastEntry;
+  String avatarLink;
 
   User({
     this.loginStatus,
     this.userToken,
     this.username,
     this.lastEntry,
+    this.avatarLink,
   });
 
   // ignore: empty_constructor_bodies

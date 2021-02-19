@@ -10,11 +10,13 @@ class SettingsScreen extends StatefulWidget {
   final User user;
   final Function navPosCallback;
   final Function logOutCallback;
+  final Function avatarChangeCallback;
 
   SettingsScreen({
     this.user,
     this.navPosCallback,
     this.logOutCallback,
+    this.avatarChangeCallback,
   });
 
   @override
@@ -22,6 +24,7 @@ class SettingsScreen extends StatefulWidget {
         user: this.user,
         navPosCallback: this.navPosCallback,
         logOutCallback: this.logOutCallback,
+        avatarChangeCallback: this.avatarChangeCallback,
       );
 }
 
@@ -30,11 +33,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   User user;
   Function navPosCallback;
   Function logOutCallback;
+  Function avatarChangeCallback;
+
+  final avatarLinkController = TextEditingController();
 
   _SettingsScreenState({
     this.user,
     this.navPosCallback,
     this.logOutCallback,
+    this.avatarChangeCallback,
   });
 
   showDeleteModal() {
@@ -119,6 +126,99 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  showAvatarChangeModal() {
+    showModalBottomSheet(
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          color: Color.fromRGBO(0, 0, 0, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: IconButton(
+                    icon: Icon(FeatherIcons.x),
+                    color: Colors.white,
+                    iconSize: 40.0,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+              ),
+              Container(
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Avatar(
+                          user: user,
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0),
+                          child: Form(
+                            child: TextFormField(
+                              controller: avatarLinkController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter a valid image URL';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Link',
+                              ),
+                              enableSuggestions: false,
+                              autocorrect: false,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 40.0,
+                      child: ElevatedButton(
+                        child: Text('UPDATE'),
+                        onPressed: () {
+                          avatarChangeCallback(avatarLinkController.text);
+                          Navigator.pop(context);
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor)),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    avatarLinkController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,7 +250,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           fontSize: 40.0,
                         ),
                       ),
-                      Avatar(),
+                      Avatar(
+                        user: user,
+                      ),
                     ],
                   ),
                 ),
@@ -161,10 +263,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     SettingsButton(
                       color: Colors.blueAccent,
-                      callback: () => print('fired'),
+                      callback: () => showAvatarChangeModal(),
                       icon: Icon(FeatherIcons.user, size: 40.0),
                       label: 'Avatar',
-                      subtext: 'Change your avatar',
+                      subtext: 'Use a valid image URL as your avatar!',
+                    ),
+                    SettingsButton(
+                      color: Colors.yellowAccent,
+                      callback: this.logOutCallback,
+                      icon: Icon(FeatherIcons.logOut, size: 40.0),
+                      label: 'Log out',
+                      subtext: 'See you soon!',
                     ),
                     SettingsButton(
                       color: Colors.redAccent,

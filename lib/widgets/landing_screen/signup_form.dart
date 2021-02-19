@@ -134,6 +134,7 @@ class _SignUpFormState extends State<SignUpForm> {
                           passwordController.text,
                         ).then((user) {
                           if (user.loginStatus == 'User logged in') {
+                            user.username = usernameController.text;
                             this.callback(true, user);
                           } else {
                             Scaffold.of(context).showSnackBar(

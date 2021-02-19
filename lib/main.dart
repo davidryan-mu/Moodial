@@ -1,6 +1,8 @@
+import 'package:Moodial/screens/calendar_screen.dart';
 import 'package:Moodial/screens/home_screen.dart';
 import 'package:Moodial/screens/landing_screen.dart';
 import 'package:Moodial/screens/settings_screen.dart';
+import 'package:Moodial/screens/stats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,6 +39,12 @@ class _MoodialState extends State<Moodial> {
     });
   }
 
+  avatarChangeCallback(avatarLink) {
+    setState(() {
+      _user.avatarLink = avatarLink;
+    });
+  }
+
   buildScreenOnNav(_navPos) {
     switch (_navPos) {
       case 0:
@@ -45,14 +53,21 @@ class _MoodialState extends State<Moodial> {
           navPosCallback: this.navPosCallback,
         );
       case 1:
-        return Text('stats');
+        return StatsScreen(
+          user: this._user,
+          navPosCallback: this.navPosCallback,
+        );
       case 2:
-        return Text('calendar');
+        return CalendarScreen(
+          user: this._user,
+          navPosCallback: this.navPosCallback,
+        );
       case 3:
         return SettingsScreen(
           user: this._user,
           navPosCallback: this.navPosCallback,
           logOutCallback: this.logOutCallback,
+          avatarChangeCallback: this.avatarChangeCallback,
         );
       default:
         return HomeScreen(

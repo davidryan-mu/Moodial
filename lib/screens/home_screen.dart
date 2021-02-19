@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0.0, 0.0),
                   child: Text(
                     user.username != null
-                        ? 'Welcome back, ' + user.username + '!'
+                        ? 'Good to see you, ' + user.username + '!'
                         : 'Welcome to Moodial!',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Avatar(),
+                Avatar(user: user),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Text('How are you feeling right now?'),
