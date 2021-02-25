@@ -2,6 +2,7 @@ import 'package:Moodial/dummy_entries.dart';
 import 'package:Moodial/models/entry.dart';
 import 'package:Moodial/models/user.dart';
 import 'package:Moodial/widgets/navbar.dart';
+import 'package:Moodial/widgets/stats_screen/food_chart.dart';
 import 'package:Moodial/widgets/stats_screen/mood_history_chart.dart';
 import 'package:Moodial/widgets/stats_screen/sleep_iritability_chart.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
@@ -91,6 +92,7 @@ class _StatsScreenState extends State<StatsScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10.0),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[100],
@@ -105,6 +107,45 @@ class _StatsScreenState extends State<StatsScreen> {
                                 child: Text(
                                     'Your sleep compared to your iritability:'),
                               ),
+                              SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Sleep',
+                                    style: TextStyle(
+                                      color: Color(0xff7589a2),
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  SizedBox(width: 20),
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFE84A6A),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Iritability',
+                                    style: TextStyle(
+                                      color: Color(0xff7589a2),
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               Container(
                                 width: double.infinity,
                                 height: 200,
@@ -114,6 +155,31 @@ class _StatsScreenState extends State<StatsScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10.0),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text('Your food choices from the week:'),
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                width: double.infinity,
+                                height: 200,
+                                child: FoodChart(dummyEntries),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),

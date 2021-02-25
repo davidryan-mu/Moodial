@@ -11,6 +11,16 @@ class DummyEntries {
     List<Entry> dummyEntries = [];
     final _random = new Random();
 
+    List<String> foodValues = [
+      'Chicken',
+      'Veg',
+      'Pasta',
+      'Chocolate',
+      'Sweets',
+      'Fruit',
+      'Nothing',
+    ];
+
     for (int i = 1; i < 15; i++) {
       dummyEntries.add(
         Entry(
@@ -25,7 +35,7 @@ class DummyEntries {
             dose: '10mg',
           ),
           diet: Diet(
-            food: 'Food',
+            food: foodValues[_random.nextInt(7)],
             amount: '100g',
           ),
           exercise: 'run',

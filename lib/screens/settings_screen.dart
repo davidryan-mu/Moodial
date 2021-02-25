@@ -113,7 +113,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         },
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.redAccent)),
+                                Color(0xFFE84A6A))),
                       ),
                     )
                   ],

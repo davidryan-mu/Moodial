@@ -57,14 +57,13 @@ class _SleepIritabilityChartState extends State<SleepIritabilityChart> {
       showingBarGroups.add(makeGroupData(
           i, entry.sleep.toDouble(), entry.iritability.toDouble()));
       i = i + 1;
-      print(entry.sleep.toString() + ' ' + entry.iritability.toString());
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 0),
+      padding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 0),
       child: Container(
         child: BarChart(
           BarChartData(
@@ -75,10 +74,9 @@ class _SleepIritabilityChartState extends State<SleepIritabilityChart> {
                 showTitles: true,
                 getTextStyles: (value) => const TextStyle(
                   color: Color(0xff7589a2),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 12,
                 ),
-                margin: 20,
+                margin: 8,
                 getTitles: (value) {
                   return DateFormat('dd-MM')
                       .format(dateFormat.parse(entryList[value.toInt()].date));
@@ -89,9 +87,9 @@ class _SleepIritabilityChartState extends State<SleepIritabilityChart> {
                 getTextStyles: (value) => const TextStyle(
                     color: Color(0xff7589a2),
                     fontWeight: FontWeight.bold,
-                    fontSize: 14),
-                margin: 32,
-                reservedSize: 14,
+                    fontSize: 15),
+                margin: 12,
+                reservedSize: 28,
                 getTitles: (value) {
                   if (value == 0) {
                     return '0';
@@ -104,7 +102,11 @@ class _SleepIritabilityChartState extends State<SleepIritabilityChart> {
               ),
             ),
             borderData: FlBorderData(
-              show: false,
+              show: true,
+              border: Border.all(
+                color: const Color(0xff37434d),
+                width: 0.5,
+              ),
             ),
             barGroups: showingBarGroups,
           ),
