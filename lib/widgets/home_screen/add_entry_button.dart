@@ -63,7 +63,11 @@ class _AddEntryButtonState extends State<AddEntryButton> {
         vertical: 10.0,
       ),
       child: ElevatedButton(
-        child: Text('Add Entry'),
+        child: Text('Add Entry',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15.0,
+            )),
         onPressed: () {
           showModalBottomSheet(
             backgroundColor: Color.fromRGBO(0, 0, 0, 0),

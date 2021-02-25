@@ -83,7 +83,7 @@ class _MoodialState extends State<Moodial> {
       title: 'Moodial',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xFF71E9A2),
+        primaryColor: Color(0xFF1AA855),
         scaffoldBackgroundColor: Color(0xFFFEFEFE),
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,

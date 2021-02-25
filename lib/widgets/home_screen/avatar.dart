@@ -45,13 +45,13 @@ class _AvatarState extends State<Avatar> {
           ),
           user.avatarLink == null
               ? CircleAvatar(
-                  radius: 45.0,
+                  radius: 50.0,
                   backgroundImage: NetworkImage(
                     defaultAvatarLink,
                   ),
                 )
               : CircleAvatar(
-                  radius: 45.0,
+                  radius: 50.0,
                   backgroundImage: NetworkImage(
                     user.avatarLink,
                   ),

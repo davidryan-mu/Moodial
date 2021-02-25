@@ -1,5 +1,4 @@
 import 'package:Moodial/models/entry.dart';
-import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 
 class UpdateEntryForm extends StatefulWidget {

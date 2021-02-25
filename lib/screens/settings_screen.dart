@@ -262,21 +262,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Column(
                   children: [
                     SettingsButton(
-                      color: Colors.blueAccent,
+                      color: Color(0xFF3FA5C0),
                       callback: () => showAvatarChangeModal(),
                       icon: Icon(FeatherIcons.user, size: 40.0),
                       label: 'Avatar',
                       subtext: 'Use a valid image URL as your avatar!',
                     ),
                     SettingsButton(
-                      color: Colors.yellowAccent,
-                      callback: this.logOutCallback,
+                      color: Color(0xFFFBDE60),
+                      callback: () {
+                        this.logOutCallback();
+                        this.navPosCallback(0);
+                      },
                       icon: Icon(FeatherIcons.logOut, size: 40.0),
                       label: 'Log out',
                       subtext: 'See you soon!',
                     ),
                     SettingsButton(
-                      color: Colors.redAccent,
+                      color: Color(0xFFE84A6A),
                       callback: showDeleteModal,
                       icon: Icon(FeatherIcons.alertOctagon, size: 40.0),
                       label: 'Delete',

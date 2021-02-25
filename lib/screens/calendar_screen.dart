@@ -48,11 +48,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                Text(
-                  'Calendar',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40.0,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Calendar',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.0,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
