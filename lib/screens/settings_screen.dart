@@ -269,6 +269,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       subtext: 'Use a valid image URL as your avatar!',
                     ),
                     SettingsButton(
+                      color: Color(0xFF96C895),
+                      callback: () => print('export'),
+                      icon: Icon(FeatherIcons.send, size: 40.0),
+                      label: 'Export',
+                      subtext:
+                          'Export all of your entries and email them to yourself or a clinician',
+                    ),
+                    SettingsButton(
                       color: Color(0xFFFBDE60),
                       callback: () {
                         this.logOutCallback();

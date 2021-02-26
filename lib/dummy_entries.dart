@@ -25,7 +25,7 @@ class DummyEntries {
       dummyEntries.add(
         Entry(
           id: i,
-          date: '2021-02-0' + i.toString(),
+          date: i < 10 ? '2021-02-0' + i.toString() : '2021-02-' + i.toString(),
           time: '20:45:20',
           mood: _random.nextInt(7) + 1,
           sleep: _random.nextInt(10),

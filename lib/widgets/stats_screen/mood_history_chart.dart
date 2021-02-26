@@ -117,7 +117,7 @@ class _MoodHistoryChartState extends State<MoodHistoryChart> {
           ],
           isCurved: true,
           colors: [Theme.of(context).primaryColor],
-          barWidth: 5,
+          barWidth: 3,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: true,
