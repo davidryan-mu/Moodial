@@ -26,7 +26,6 @@ class Entry {
   // ignore: empty_constructor_bodies
   factory Entry.fromJSON(json) {
     if (json.isNotEmpty) {
-      json = json[0];
       return Entry(
         id: json['_id'],
         date: json['date'],

@@ -1,5 +1,4 @@
-import 'package:Moodial/dummy_entries.dart';
-import 'package:Moodial/models/entry.dart';
+import 'package:Moodial/api_service/api.dart';
 import 'package:Moodial/models/user.dart';
 import 'package:Moodial/widgets/navbar.dart';
 import 'package:Moodial/widgets/stats_screen/food_chart.dart';
@@ -28,8 +27,6 @@ class _StatsScreenState extends State<StatsScreen> {
   int _currentTab = 1;
   User user;
   Function navPosCallback;
-
-  List<Entry> dummyEntries = DummyEntries.getList().list;
 
   _StatsScreenState({
     this.user,
@@ -70,115 +67,163 @@ class _StatsScreenState extends State<StatsScreen> {
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text('How you\'ve felt this week:'),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                height: 200,
-                                child: MoodHistoryChart(dummyEntries),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                    'Your sleep compared to your iritability:'),
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                      FutureBuilder(
+                          future: ApiService.getEntryList(user.userToken),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                    ConnectionState.done &&
+                                snapshot.data != null &&
+                                snapshot.data.length >= 7) {
+                              return Column(
                                 children: [
                                   Container(
-                                    height: 10,
-                                    width: 10,
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      shape: BoxShape.circle,
+                                      color: Colors.grey[100],
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                                'How you\'ve felt this week:'),
+                                          ),
+                                          Container(
+                                            width: double.infinity,
+                                            height: 200,
+                                            child:
+                                                MoodHistoryChart(snapshot.data),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Sleep',
-                                    style: TextStyle(
-                                      color: Color(0xff7589a2),
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                  SizedBox(width: 20),
+                                  SizedBox(height: 10.0),
                                   Container(
-                                    height: 10,
-                                    width: 10,
                                     decoration: BoxDecoration(
-                                      color: Color(0xFFE84A6A),
-                                      shape: BoxShape.circle,
+                                      color: Colors.grey[100],
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                                'Your sleep compared to your iritability:'),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                height: 10,
+                                                width: 10,
+                                                decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                'Sleep',
+                                                style: TextStyle(
+                                                  color: Color(0xff7589a2),
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                              SizedBox(width: 20),
+                                              Container(
+                                                height: 10,
+                                                width: 10,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFFE84A6A),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                'Iritability',
+                                                style: TextStyle(
+                                                  color: Color(0xff7589a2),
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            width: double.infinity,
+                                            height: 200,
+                                            child: SleepIritabilityChart(
+                                                snapshot.data),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Iritability',
-                                    style: TextStyle(
-                                      color: Color(0xff7589a2),
-                                      fontSize: 13,
+                                  SizedBox(height: 10.0),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                                'Your food choices from the week:'),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Container(
+                                            width: double.infinity,
+                                            height: 200,
+                                            child: FoodChart(snapshot.data),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
-                              ),
-                              Container(
-                                width: double.infinity,
-                                height: 200,
-                                child: SleepIritabilityChart(dummyEntries),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text('Your food choices from the week:'),
-                              ),
-                              SizedBox(height: 10),
-                              Container(
-                                width: double.infinity,
-                                height: 200,
-                                child: FoodChart(dummyEntries),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                              );
+                            } else if (snapshot.connectionState ==
+                                    ConnectionState.done &&
+                                (snapshot.data == null ||
+                                    snapshot.data.length < 7)) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Nothing to see here...',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  Text(
+                                      'You need at least 7 entries before we can show you your statistics.'),
+                                  Center(
+                                    child: Image(
+                                      width: 600,
+                                      image: AssetImage(
+                                          'assets/images/undraw_empty_street_sfxm.png'),
+                                    ),
+                                  )
+                                ],
+                              );
+                            }
+                            return CircularProgressIndicator();
+                          }),
                       SizedBox(height: 10),
                     ],
                   ),

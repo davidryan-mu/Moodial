@@ -1,5 +1,4 @@
-import 'package:Moodial/dummy_entries.dart';
-import 'package:Moodial/models/entry.dart';
+import 'package:Moodial/api_service/api.dart';
 import 'package:Moodial/models/user.dart';
 import 'package:Moodial/widgets/calendar_screen/calendar_carousel.dart';
 import 'package:Moodial/widgets/navbar.dart';
@@ -26,8 +25,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   int _currentTab = 2;
   User user;
   Function navPosCallback;
-
-  List<Entry> dummyEntries = DummyEntries.getList().list;
 
   _CalendarScreenState({
     this.user,
@@ -67,7 +64,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           ),
                         ),
                       ),
-                      Calendar(dummyEntries),
+                      Container(
+                        height: 390,
+                        width: double.infinity,
+                        child: FutureBuilder(
+                            future: ApiService.getEntryList(user.userToken),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                  snapshot.data != null) {
+                                return Calendar(snapshot.data);
+                              } else if (snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                  snapshot.data == null) {
+                                return Calendar(null);
+                              }
+                              return Center(child: CircularProgressIndicator());
+                            }),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Row(
@@ -102,31 +116,42 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       SizedBox(height: 15),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: dummyEntries.length == 0
-                            ? Text(
-                                'You\'ll see a history of your entries here when you start logging your moods',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                ),
-                              )
-                            : dummyEntries.length == 1
-                                ? Text(
+                        child: FutureBuilder(
+                            future: ApiService.getEntryList(user.userToken),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                if (snapshot.data == null ||
+                                    snapshot.data.length == 0) {
+                                  return Text(
+                                    'Make an entry to see it on the calendar!',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
+                                    ),
+                                  );
+                                } else if (snapshot.data.length == 1) {
+                                  return Text(
                                     'Congrats on your first entry!',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25,
                                     ),
-                                  )
-                                : Text(
+                                  );
+                                } else {
+                                  return Text(
                                     'You\'re on a roll with ' +
-                                        dummyEntries.length.toString() +
+                                        snapshot.data.length.toString() +
                                         ' entries so far!',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25,
                                     ),
-                                  ),
+                                  );
+                                }
+                              }
+                              return Center(child: CircularProgressIndicator());
+                            }),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

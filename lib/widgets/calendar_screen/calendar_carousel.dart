@@ -27,7 +27,7 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_runOnceFlag) {
+    if (!_runOnceFlag && entryList != null) {
       setState(() {
         _markedDateMap = entryListToEventList(_markedDateMap, entryList);
         _runOnceFlag = !_runOnceFlag;

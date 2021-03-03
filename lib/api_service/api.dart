@@ -64,10 +64,31 @@ class ApiService {
     );
     if (response.statusCode == 200) {
       //Successful
-      return Entry.fromJSON(jsonDecode(response.body));
+      Iterable body = jsonDecode(response.body);
+      return Entry.fromJSON(body.first);
     } else {
       // Error message
       throw Exception('Failed to get entry due to server error.');
+    }
+  }
+
+  static Future<List<Entry>> getEntryList(userToken) async {
+    final response = await http.get(
+      '${URLS.BASE_URL}/entrylist',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + userToken,
+      },
+    );
+    if (response.statusCode == 200) {
+      //Successful
+      Iterable body = jsonDecode(response.body);
+      List<Entry> responseList = [];
+      body.forEach((entry) => responseList.add(Entry.fromJSON(entry)));
+      return responseList;
+    } else {
+      // Error message
+      throw Exception('Failed to get entry list due to server error.');
     }
   }
 
