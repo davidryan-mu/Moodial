@@ -1,4 +1,4 @@
-import 'package:Moodial/api_service/api.dart';
+import 'package:Moodial/services/api.dart';
 import 'package:Moodial/models/user.dart';
 import 'package:Moodial/widgets/calendar_screen/calendar_carousel.dart';
 import 'package:Moodial/widgets/navbar.dart';

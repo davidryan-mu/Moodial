@@ -1,4 +1,4 @@
-import 'package:Moodial/api_service/api.dart';
+import 'package:Moodial/services/api.dart';
 import 'package:Moodial/models/user.dart';
 import 'package:Moodial/widgets/navbar.dart';
 import 'package:Moodial/widgets/stats_screen/food_chart.dart';

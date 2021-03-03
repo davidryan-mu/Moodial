@@ -1,5 +1,6 @@
-import 'package:Moodial/api_service/api.dart';
+import 'package:Moodial/services/api.dart';
 import 'package:Moodial/models/user.dart';
+import 'package:Moodial/services/email_csv.dart';
 import 'package:Moodial/widgets/settings_screen/avatar.dart';
 import 'package:Moodial/widgets/navbar.dart';
 import 'package:Moodial/widgets/settings_screen/settings_button.dart';
@@ -36,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Function avatarChangeCallback;
 
   final avatarLinkController = TextEditingController();
+  final exportEmailController = TextEditingController();
 
   _SettingsScreenState({
     this.user,
@@ -163,9 +165,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        Avatar(
-                          user: user,
-                        ),
+                        Avatar(user: user),
                         Padding(
                           padding:
                               const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0),
@@ -212,10 +212,110 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  showExportModal() {
+    showModalBottomSheet(
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          color: Color.fromRGBO(0, 0, 0, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: IconButton(
+                    icon: Icon(FeatherIcons.x),
+                    color: Colors.white,
+                    iconSize: 40.0,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+              ),
+              Container(
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Icon(FeatherIcons.send, size: 40),
+                        SizedBox(
+                          height: 40.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Text(
+                              'Enter an email address to send your list of entries as a CSV attachment to.'),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0),
+                          child: Form(
+                            child: TextFormField(
+                              controller: exportEmailController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter a valid email address';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Email',
+                              ),
+                              enableSuggestions: false,
+                              autocorrect: false,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 40.0,
+                      child: ElevatedButton(
+                        child: Text('SEND'),
+                        onPressed: () {
+                          ApiService.getEntryList(user.userToken)
+                              .then((response) {
+                            EmailCSV.sendEmail(
+                              user.username,
+                              exportEmailController.text,
+                              response,
+                            );
+                            Navigator.pop(context);
+                          });
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor)),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     avatarLinkController.dispose();
+    exportEmailController.dispose();
     super.dispose();
   }
 
@@ -270,7 +370,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     SettingsButton(
                       color: Color(0xFF96C895),
-                      callback: () => print('export'),
+                      callback: () => showExportModal(),
                       icon: Icon(FeatherIcons.send, size: 40.0),
                       label: 'Export',
                       subtext:

@@ -1,4 +1,4 @@
-import 'package:Moodial/api_service/api.dart';
+import 'package:Moodial/services/api.dart';
 import 'package:Moodial/models/entry.dart';
 import 'package:Moodial/models/mood.dart';
 import 'package:Moodial/widgets/home_screen/add_entry_dial.dart';

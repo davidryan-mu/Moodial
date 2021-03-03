@@ -1,4 +1,4 @@
-import 'package:Moodial/api_service/api.dart';
+import 'package:Moodial/services/api.dart';
 import 'package:Moodial/widgets/home_screen/add_entry_dial.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:flutter/material.dart';
