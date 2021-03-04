@@ -88,10 +88,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Avatar(user: user),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 5.0, 0.0, 0.0),
                   child: Text('How are you feeling right now?'),
+                ),
+                Avatar(
+                  user: user,
+                  dialState: _dialState,
+                  key: UniqueKey(),
                 ),
                 Dial(
                   callback: this.dialCallback,

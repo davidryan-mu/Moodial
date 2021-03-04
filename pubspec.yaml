@@ -33,6 +33,7 @@ dependencies:
   path_provider: 1.6.27
   csv: ^4.1.0
   flutter_email_sender: ^4.0.0
+  flutter_svg: 
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +53,13 @@ flutter:
   assets:
     - assets/images/undraw_visual_data.png
     - assets/images/undraw_empty_street_sfxm.png
+    - assets/images/angry-emoji.svg
+    - assets/images/bad-emoji.svg
+    - assets/images/disgusted-emoji.svg
+    - assets/images/fearful-emoji.svg
+    - assets/images/happy-emoji.svg
+    - assets/images/sad-emoji.svg
+    - assets/images/surprised-emoji.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

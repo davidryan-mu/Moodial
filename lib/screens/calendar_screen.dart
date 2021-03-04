@@ -1,5 +1,6 @@
 import 'package:Moodial/services/api.dart';
 import 'package:Moodial/models/user.dart';
+import 'package:Moodial/services/mood_props.dart';
 import 'package:Moodial/widgets/calendar_screen/calendar_carousel.dart';
 import 'package:Moodial/widgets/navbar.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
@@ -91,25 +92,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                getIndicator(Color(0xFFFBDE60), 'Happy'),
-                                getIndicator(Color(0xFFE84A6A), 'Angry')
+                                getIndicator(1, 'Happy'),
+                                getIndicator(5, 'Angry')
                               ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                getIndicator(Color(0xFF5C8FC1), 'Sad'),
-                                getIndicator(Color(0xFF46C365), 'Fearful')
+                                getIndicator(2, 'Sad'),
+                                getIndicator(6, 'Fearful')
                               ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                getIndicator(Color(0xFF3FA5C0), 'Surprised'),
-                                getIndicator(Color(0xFF96C895), 'Bad')
+                                getIndicator(3, 'Surprised'),
+                                getIndicator(7, 'Bad')
                               ],
                             ),
-                            getIndicator(Color(0xFF9F78BA), 'Happy'),
+                            getIndicator(4, 'Disgusted'),
                           ],
                         ),
                       ),
@@ -187,16 +188,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  Widget getIndicator(color, label) {
+  Widget getIndicator(value, label) {
     return Row(
       children: [
         Container(
           height: 10,
           width: 10,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
+          child: MoodProps.moodEmoji(value),
         ),
         SizedBox(width: 5),
         Text(

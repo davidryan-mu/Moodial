@@ -1,3 +1,4 @@
+import 'package:Moodial/services/mood_props.dart';
 import 'package:flutter/material.dart';
 
 class AddEntryDial extends StatefulWidget {
@@ -24,47 +25,6 @@ class _AddEntryDialState extends State<AddEntryDial> {
     return Container(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              top: 20.0,
-              right: 20.0,
-              bottom: 0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SliderIndicator(
-                  value: '🙂',
-                  color: Color(0xFFFBDE60),
-                ),
-                SliderIndicator(
-                  value: '🙁',
-                  color: Color(0xFF5C8FC1),
-                ),
-                SliderIndicator(
-                  value: '😮',
-                  color: Color(0xFF3FA5C0),
-                ),
-                SliderIndicator(
-                  value: '🤢',
-                  color: Color(0xFF9F78BA),
-                ),
-                SliderIndicator(
-                  value: '😡',
-                  color: Color(0xFFE84A6A),
-                ),
-                SliderIndicator(
-                  value: '😨',
-                  color: Color(0xFF46C365),
-                ),
-                SliderIndicator(
-                  value: '😔',
-                  color: Color(0xFF96C895),
-                ),
-              ],
-            ),
-          ),
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
               activeTrackColor: Theme.of(context).primaryColor,
@@ -87,76 +47,41 @@ class _AddEntryDialState extends State<AddEntryDial> {
                 }),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                toMood(sliderValue),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
+            padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  MoodProps.moodValueToString(sliderValue.toInt()),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30.0,
+                  ),
                 ),
-              ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 65,
+                      height: 65,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: MoodProps.moodColor(sliderValue.toInt())
+                            .withAlpha(100),
+                      ),
+                    ),
+                    Container(
+                      width: 50,
+                      height: 50,
+                      child: MoodProps.moodEmoji(sliderValue),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
   }
-}
-
-class SliderIndicator extends StatelessWidget {
-  SliderIndicator({Key key, this.value, this.color}) : super(key: key);
-  final String value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          SizedBox(
-            width: double.infinity,
-            height: 20.0,
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: color),
-            ),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 25.0,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-String toMood(double value) {
-  int valueToInt = value.round();
-  switch (valueToInt) {
-    case 1:
-      return 'Happy';
-      break;
-    case 2:
-      return 'Sad';
-      break;
-    case 3:
-      return 'Surprised';
-      break;
-    case 4:
-      return 'Disgusted';
-      break;
-    case 5:
-      return 'Angry';
-    case 6:
-      return 'Fearful';
-    case 7:
-      return 'Bad';
-  }
-
-  return 'Error';
 }

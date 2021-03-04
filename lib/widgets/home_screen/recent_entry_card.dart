@@ -1,6 +1,7 @@
 import 'package:Moodial/services/api.dart';
 import 'package:Moodial/models/entry.dart';
 import 'package:Moodial/models/mood.dart';
+import 'package:Moodial/services/mood_props.dart';
 import 'package:Moodial/widgets/home_screen/add_entry_dial.dart';
 import 'package:Moodial/widgets/home_screen/update_entry_form.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
@@ -62,61 +63,6 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
       });
       _overwritten = !_overwritten;
     }
-  }
-
-  Mood getMood(double value) {
-    int valueToInt = value.round();
-    switch (valueToInt) {
-      case 1:
-        return Mood(
-          name: 'Happy',
-          color: Color(0xFFFBDE60),
-          emote: '🙂',
-        );
-        break;
-      case 2:
-        return Mood(
-          name: 'Sad',
-          color: Color(0xFF5C8FC1),
-          emote: '🙁',
-        );
-        break;
-      case 3:
-        return Mood(
-          name: 'Surprised',
-          color: Color(0xFF3FA5C0),
-          emote: '😮',
-        );
-        break;
-      case 4:
-        return Mood(
-          name: 'Disgusted',
-          color: Color(0xFF9F78BA),
-          emote: '🤢',
-        );
-        break;
-      case 5:
-        return Mood(
-          name: 'Angry',
-          color: Color(0xFFE84A6A),
-          emote: '😡',
-        );
-      case 6:
-        return Mood(
-          name: 'Fearful',
-          color: Color(0xFF46C365),
-          emote: '😨',
-        );
-        break;
-      case 7:
-        return Mood(
-          name: 'Bad',
-          color: Color(0xFF96C895),
-          emote: '😔',
-        );
-    }
-
-    return Mood(name: 'error');
   }
 
   showModal() {
@@ -231,7 +177,7 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                       height: 15.0,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: getMood(entry.mood.toDouble()).color,
+                          color: MoodProps.moodColor(entry.mood),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20.0),
                             topRight: Radius.circular(20.0),
@@ -243,11 +189,8 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                       alignment: Alignment.topRight,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 10.0, 0),
-                        child: Text(
-                          getMood(entry.mood.toDouble()).emote,
-                          style: TextStyle(
-                            fontSize: 25.0,
-                          ),
+                        child: Container(
+                          child: MoodProps.moodEmoji(entry.mood),
                         ),
                       ),
                     )
@@ -264,7 +207,7 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            getMood(entry.mood.toDouble()).name,
+                            MoodProps.moodValueToString(entry.mood),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25.0,

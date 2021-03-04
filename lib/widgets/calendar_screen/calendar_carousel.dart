@@ -1,4 +1,5 @@
 import 'package:Moodial/models/entry.dart';
+import 'package:Moodial/services/mood_props.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
@@ -81,35 +82,11 @@ class _CalendarState extends State<Calendar> {
             dot: Container(
               width: 10,
               height: 10,
-              decoration: BoxDecoration(
-                color: moodColor(entry.mood),
-                shape: BoxShape.circle,
-              ),
+              child: MoodProps.moodEmoji(entry.mood),
             ),
           ));
     });
 
     return _markedDateMap;
-  }
-
-  Color moodColor(mood) {
-    switch (mood) {
-      case 1:
-        return Color(0xFFFBDE60);
-      case 2:
-        return Color(0xFF5C8FC1);
-      case 3:
-        return Color(0xFF3FA5C0);
-      case 4:
-        return Color(0xFF9F78BA);
-      case 5:
-        return Color(0xFFE84A6A);
-      case 6:
-        return Color(0xFF46C365);
-      case 7:
-        return Color(0xFF96C895);
-    }
-
-    return null;
   }
 }

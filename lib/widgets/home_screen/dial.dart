@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Dial extends StatefulWidget {
   final Function callback;
@@ -22,47 +23,6 @@ class _DialState extends State<Dial> {
     return Container(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              top: 10.0,
-              right: 20.0,
-              bottom: 0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SliderIndicator(
-                  value: '🙂',
-                  color: Color(0xFFFBDE60),
-                ),
-                SliderIndicator(
-                  value: '🙁',
-                  color: Color(0xFF5C8FC1),
-                ),
-                SliderIndicator(
-                  value: '😮',
-                  color: Color(0xFF3FA5C0),
-                ),
-                SliderIndicator(
-                  value: '🤢',
-                  color: Color(0xFF9F78BA),
-                ),
-                SliderIndicator(
-                  value: '😡',
-                  color: Color(0xFFE84A6A),
-                ),
-                SliderIndicator(
-                  value: '😨',
-                  color: Color(0xFF46C365),
-                ),
-                SliderIndicator(
-                  value: '😔',
-                  color: Color(0xFF96C895),
-                ),
-              ],
-            ),
-          ),
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
               activeTrackColor: Theme.of(context).primaryColor,
@@ -84,71 +44,45 @@ class _DialState extends State<Dial> {
                   this.callback(value.round());
                 }),
           ),
-          Text(
-            toMood(_currentSliderValue),
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 25.0,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Container(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  sliderIndicator('Happy', 1),
+                  sliderIndicator('Sad', 2),
+                  sliderIndicator('Surprised', 3),
+                  sliderIndicator('Disgusted', 4),
+                  sliderIndicator('Angry', 5),
+                  sliderIndicator('Fearful', 6),
+                  sliderIndicator('Bad', 7),
+                ],
+              ),
             ),
           ),
         ],
       ),
     );
   }
-}
 
-class SliderIndicator extends StatelessWidget {
-  SliderIndicator({Key key, this.value, this.color}) : super(key: key);
-  final String value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          SizedBox(
-            width: double.infinity,
-            height: 20.0,
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: color),
+  Widget sliderIndicator(text, value) {
+    return AnimatedDefaultTextStyle(
+      child: Text(text),
+      style: _currentSliderValue == value
+          ? GoogleFonts.montserrat(
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            )
+          : GoogleFonts.montserrat(
+              fontSize: 12,
+              color: Colors.grey,
+              fontWeight: FontWeight.normal,
             ),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 25.0,
-            ),
-          )
-        ],
-      ),
+      duration: Duration(milliseconds: 250),
     );
   }
-}
-
-String toMood(double value) {
-  int valueToInt = value.round();
-  switch (valueToInt) {
-    case 1:
-      return 'Happy';
-      break;
-    case 2:
-      return 'Sad';
-      break;
-    case 3:
-      return 'Surprised';
-      break;
-    case 4:
-      return 'Disgusted';
-      break;
-    case 5:
-      return 'Angry';
-    case 6:
-      return 'Fearful';
-    case 7:
-      return 'Bad';
-  }
-
-  return 'Error';
 }
