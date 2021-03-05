@@ -39,12 +39,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
         slivers: <Widget>[
           SliverAppBar(
             actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  FeatherIcons.bell,
-                  color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                child: Tooltip(
+                  message: 'No new notifications',
+                  child: Icon(
+                    FeatherIcons.bell,
+                    color: Colors.white,
+                  ),
                 ),
-                onPressed: () => print('notif pressed'),
               )
             ],
           ),

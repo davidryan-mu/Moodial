@@ -176,7 +176,8 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                       height: 15.0,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: MoodProps.moodColor(entry.mood),
+                          color:
+                              MoodProps.moodColor(entry.mood).withOpacity(0.7),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20.0),
                             topRight: Radius.circular(20.0),
