@@ -117,7 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       : ApiService.getEntryList(user.userToken),
                   builder: (context, snapshot) {
                     final entryList = snapshot.data;
-                    print(snapshot.data);
 
                     if (snapshot.connectionState == ConnectionState.done &&
                         snapshot.data != null &&
