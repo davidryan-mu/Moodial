@@ -154,8 +154,10 @@ class _FoodChartState extends State<FoodChart> {
     List<String> uniqueFoods = [];
 
     entryList.sublist(entryList.length - 7).forEach((entry) {
-      if (!uniqueFoods.contains(entry.diet.food))
+      if (!uniqueFoods.contains(entry.diet.food) && entry.diet.food != '')
         uniqueFoods.add(entry.diet.food);
+      if (!uniqueFoods.contains('Not listed') && entry.diet.food == '')
+        uniqueFoods.add('Not listed');
     });
 
     return List.generate(uniqueFoods.length, (i) {

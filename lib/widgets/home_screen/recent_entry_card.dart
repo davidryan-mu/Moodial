@@ -1,6 +1,5 @@
 import 'package:Moodial/services/api.dart';
 import 'package:Moodial/models/entry.dart';
-import 'package:Moodial/models/mood.dart';
 import 'package:Moodial/services/mood_props.dart';
 import 'package:Moodial/widgets/home_screen/add_entry_dial.dart';
 import 'package:Moodial/widgets/home_screen/update_entry_form.dart';
@@ -89,7 +88,7 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
               ),
               Container(
                 height: 660,
-                width: MediaQuery.of(context).size.width,
+                width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -164,7 +163,7 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
       child: InkWell(
         onTap: () => showModal(),
         child: Container(
-          width: 300,
+          width: double.infinity,
           height: 150,
           child: Column(
             children: [

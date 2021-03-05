@@ -51,9 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  _fetchLastEntry() {
+  _fetchEntries() {
     return this._memoizer.runOnce(() async {
-      return ApiService.getEntry(user.userToken);
+      return ApiService.getEntryList(user.userToken);
     });
   }
 
@@ -113,20 +113,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 FutureBuilder(
                   future: _firstLoadFlag
-                      ? _fetchLastEntry()
-                      : ApiService.getEntry(user.userToken),
+                      ? _fetchEntries()
+                      : ApiService.getEntryList(user.userToken),
                   builder: (context, snapshot) {
-                    final entry = snapshot.data;
+                    final entryList = snapshot.data;
+                    print(snapshot.data);
+
                     if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.data != null) {
-                      return RecentEntryCard(
-                        entry: entry,
-                        userToken: user.userToken,
-                        callback: this.modalCallback,
+                        snapshot.data != null &&
+                        entryList.length < 5 &&
+                        entryList.length > 0) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Column(
+                          children: entryList.reversed
+                              .map<Widget>(
+                                (entry) => RecentEntryCard(
+                                  entry: entry,
+                                  userToken: user.userToken,
+                                  callback: this.modalCallback,
+                                ),
+                              )
+                              .toList(),
+                        ),
                       );
                     } else if (snapshot.connectionState ==
                             ConnectionState.done &&
-                        snapshot.data == null) {
+                        snapshot.data != null &&
+                        entryList.length >= 5) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Column(
+                          children: entryList.reversed
+                              .take(5)
+                              .map<Widget>(
+                                (entry) => RecentEntryCard(
+                                  entry: entry,
+                                  userToken: user.userToken,
+                                  callback: this.modalCallback,
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      );
+                    } else if (snapshot.connectionState ==
+                            ConnectionState.done &&
+                        (snapshot.data == null || snapshot.data.length == 0)) {
                       return Padding(
                         padding: EdgeInsets.fromLTRB(15.0, 5.0, 0, 0),
                         child: Text(

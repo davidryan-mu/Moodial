@@ -3,6 +3,7 @@ import 'package:Moodial/models/user.dart';
 import 'package:Moodial/widgets/navbar.dart';
 import 'package:Moodial/widgets/stats_screen/food_chart.dart';
 import 'package:Moodial/widgets/stats_screen/mood_history_chart.dart';
+import 'package:Moodial/widgets/stats_screen/resources.dart';
 import 'package:Moodial/widgets/stats_screen/sleep_iritability_chart.dart';
 import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -225,6 +226,7 @@ class _StatsScreenState extends State<StatsScreen> {
                             return CircularProgressIndicator();
                           }),
                       SizedBox(height: 10),
+                      Resources(),
                     ],
                   ),
                 ),
