@@ -5,7 +5,7 @@ import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
 class URLS {
-  static const String BASE_URL = 'http://10.0.2.2:5000';
+  static const String BASE_URL = 'https://moodial-server.herokuapp.com/';
 }
 
 class ApiService {
