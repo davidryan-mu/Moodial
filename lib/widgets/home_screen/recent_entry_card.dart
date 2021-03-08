@@ -39,7 +39,7 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
     this.callback,
   });
 
-  Map<String, dynamic> formState;
+  Map<String, dynamic> formState = {};
   int dialState;
   bool _overwritten = false;
 
@@ -70,83 +70,88 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return Container(
-          color: Color.fromRGBO(0, 0, 0, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
-                child: IconButton(
-                    icon: Icon(FeatherIcons.x),
-                    color: Colors.white,
-                    iconSize: 40.0,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-              ),
-              Container(
-                height: 660,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
+        return Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              color: Color.fromRGBO(0, 0, 0, 0),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    AddEntryDial(
-                      sliderValue: entry.mood.toDouble(),
-                      callback: this.sliderCallback,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          DateFormat('dd-MM-yyyy')
-                                  .format(dateFormat.parse(entry.date)) +
-                              ' • ' +
-                              entry.time.substring(0, 5),
-                        ),
-                      ),
-                    ),
-                    UpdateEntryForm(this.formCallback, this.entry),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 40.0,
-                      child: ElevatedButton(
-                        child: Text('UPDATE'),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                        icon: Icon(FeatherIcons.x),
+                        color: Colors.white,
+                        iconSize: 40.0,
                         onPressed: () {
-                          formState['mood'] = dialState;
-                          if (formState['valid'] == true) {
-                            ApiService.updateEntry(
-                              userToken,
-                              formState,
-                              entry.id,
-                            ).then((response) {
-                              this.callback(false);
-                              Navigator.pop(context);
-                            });
-                          }
-                        },
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).primaryColor)),
+                          this.callback(false);
+                          Navigator.pop(context);
+                        }),
+                  ),
+                  Container(
+                    height: 660,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
                       ),
-                    )
-                  ],
+                    ),
+                    child: Column(
+                      children: [
+                        AddEntryDial(
+                          sliderValue: dialState.toDouble(),
+                          callback: this.sliderCallback,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(DateFormat('dd-MM-yyyy')
+                                    .format(DateTime.now()) +
+                                ' • ' +
+                                DateFormat('H:mm').format(DateTime.now())),
+                          ),
+                        ),
+                        UpdateEntryForm(this.formCallback, this.entry),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SafeArea(
+              minimum: EdgeInsets.all(15),
+              child: SizedBox(
+                width: double.infinity,
+                height: 40.0,
+                child: ElevatedButton(
+                  child: Text('UPDATE'),
+                  onPressed: () {
+                    formState['mood'] = dialState;
+                    if (formState['valid'] == true) {
+                      ApiService.updateEntry(
+                        userToken,
+                        formState,
+                        entry.id,
+                      ).then((response) {
+                        this.callback(false);
+                        Navigator.pop(context);
+                      });
+                    }
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).primaryColor)),
                 ),
               ),
-            ],
-          ),
+            )
+          ],
         );
       },
     );

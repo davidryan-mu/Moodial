@@ -34,14 +34,14 @@ class Resources extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: LinkLauncher.govURL,
                     child: Text('Gov.ie - Minding Your Mood'),
                   ),
                   Text(
                       'Healthy Ireland have put together a campaign alongside the Irish Government outlining some positive psychology practices.'),
                   SizedBox(height: 10),
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: LinkLauncher.hseURL,
                     child: Text('HSE - Your Mental Health'),
                   ),

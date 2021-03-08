@@ -74,82 +74,89 @@ class _AddEntryButtonState extends State<AddEntryButton> {
             context: context,
             isScrollControlled: true,
             builder: (BuildContext context) {
-              return Container(
-                color: Color.fromRGBO(0, 0, 0, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
-                      child: IconButton(
-                          icon: Icon(FeatherIcons.x),
-                          color: Colors.white,
-                          iconSize: 40.0,
-                          onPressed: () {
-                            this.callback(false);
-                            Navigator.pop(context);
-                          }),
-                    ),
-                    Container(
-                      height: 660,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
+              return Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    color: Color.fromRGBO(0, 0, 0, 0),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        SizedBox(
+                          height: 20,
                         ),
-                      ),
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: [
-                          AddEntryDial(
-                            sliderValue: dialState.toDouble(),
-                            callback: this.sliderCallback,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(DateFormat('dd-MM-yyyy')
-                                      .format(DateTime.now()) +
-                                  ' • ' +
-                                  DateFormat('H:mm').format(DateTime.now())),
-                            ),
-                          ),
-                          AddEntryForm(this.formCallback),
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 40.0,
-                            child: ElevatedButton(
-                              child: Text('SAVE'),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: IconButton(
+                              icon: Icon(FeatherIcons.x),
+                              color: Colors.white,
+                              iconSize: 40.0,
                               onPressed: () {
-                                formState['mood'] = dialState;
-                                if (formState['valid'] == true) {
-                                  ApiService.postEntry(
-                                    userToken,
-                                    formState,
-                                  ).then((response) {
-                                    this.callback(false);
-                                    Navigator.pop(context);
-                                  });
-                                }
-                              },
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor)),
+                                this.callback(false);
+                                Navigator.pop(context);
+                              }),
+                        ),
+                        Container(
+                          height: 660,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0),
                             ),
-                          )
-                        ],
+                          ),
+                          child: Column(
+                            children: [
+                              AddEntryDial(
+                                sliderValue: dialState.toDouble(),
+                                callback: this.sliderCallback,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(DateFormat('dd-MM-yyyy')
+                                          .format(DateTime.now()) +
+                                      ' • ' +
+                                      DateFormat('H:mm')
+                                          .format(DateTime.now())),
+                                ),
+                              ),
+                              AddEntryForm(this.formCallback),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SafeArea(
+                    minimum: EdgeInsets.all(15),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 40.0,
+                      child: ElevatedButton(
+                        child: Text('SAVE'),
+                        onPressed: () {
+                          formState['mood'] = dialState;
+                          if (formState['valid'] == true) {
+                            ApiService.postEntry(
+                              userToken,
+                              formState,
+                            ).then((response) {
+                              this.callback(false);
+                              Navigator.pop(context);
+                            });
+                          }
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor)),
                       ),
                     ),
-                  ],
-                ),
+                  )
+                ],
               );
             },
           );

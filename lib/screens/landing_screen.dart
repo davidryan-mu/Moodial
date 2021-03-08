@@ -79,7 +79,7 @@ class _LandingScreenState extends State<LandingScreen> {
                           ? 'Already using Moodial?'
                           : 'New to Moodial?',
                     ),
-                    OutlineButton(
+                    OutlinedButton(
                       child: Text(
                         showSignUpForm
                             ? 'Tap here to log in!'

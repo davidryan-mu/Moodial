@@ -11,7 +11,7 @@ class URLS {
 class ApiService {
   static Future<User> login(username, password) async {
     final response = await http.post(
-      '${URLS.BASE_URL}/login',
+      Uri.parse('${URLS.BASE_URL}/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -33,7 +33,7 @@ class ApiService {
 
   static Future<int> register(username, email, password) async {
     final response = await http.post(
-      '${URLS.BASE_URL}/register',
+      Uri.parse('${URLS.BASE_URL}/register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -56,7 +56,7 @@ class ApiService {
 
   static Future<Entry> getEntry(userToken) async {
     final response = await http.get(
-      '${URLS.BASE_URL}/entry',
+      Uri.parse('${URLS.BASE_URL}/entry'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ' + userToken,
@@ -74,7 +74,7 @@ class ApiService {
 
   static Future<List<Entry>> getEntryList(userToken) async {
     final response = await http.get(
-      '${URLS.BASE_URL}/entrylist',
+      Uri.parse('${URLS.BASE_URL}/entrylist'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ' + userToken,
@@ -94,7 +94,7 @@ class ApiService {
 
   static Future<int> postEntry(userToken, formData) async {
     final response = await http.post(
-      '${URLS.BASE_URL}/entry',
+      Uri.parse('${URLS.BASE_URL}/entry'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ' + userToken,
@@ -130,7 +130,7 @@ class ApiService {
 
   static Future<int> updateEntry(userToken, formData, id) async {
     final response = await http.put(
-      '${URLS.BASE_URL}/entry/' + id.toString(),
+      Uri.parse('${URLS.BASE_URL}/entry/' + id.toString()),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ' + userToken,
@@ -166,7 +166,7 @@ class ApiService {
 
   static Future<String> deleteUser(userToken, username) async {
     final response = await http.delete(
-      '${URLS.BASE_URL}/deleteuser/' + username,
+      Uri.parse('${URLS.BASE_URL}/deleteuser/' + username),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ' + userToken,

@@ -115,7 +115,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 child: Text('Sign Up'),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Scaffold.of(context).showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Processing data')));
                     ApiService.register(
                       usernameController.text,
@@ -123,7 +123,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       passwordController.text,
                     ).then((statusCode) {
                       if (statusCode == 200 || statusCode == 201) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               content: Text(
                                   'Successful sign up. Logging you in...')),
@@ -137,16 +137,16 @@ class _SignUpFormState extends State<SignUpForm> {
                             user.username = usernameController.text;
                             this.callback(true, user);
                           } else {
-                            Scaffold.of(context).showSnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(user.loginStatus)));
                           }
                         });
                       } else if (statusCode == 400) {
-                        Scaffold.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content:
                                 Text('User already exists. Try new data...')));
                       } else {
-                        Scaffold.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content:
                                 Text('Error signing up. Please try again...')));
                       }

@@ -96,7 +96,7 @@ class _LoginFormState extends State<LoginForm> {
                 child: Text('Log In'),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Scaffold.of(context).showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Processing data')));
                     ApiService.login(
                       usernameController.text,
@@ -106,7 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                         user.username = usernameController.text;
                         this.callback(true, user);
                       } else {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(user.loginStatus)));
                       }
                     });
