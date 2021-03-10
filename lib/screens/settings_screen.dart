@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Moodial/services/api.dart';
 import 'package:Moodial/models/user.dart';
 import 'package:Moodial/services/email_csv.dart';
@@ -243,65 +245,83 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Icon(FeatherIcons.send, size: 40),
-                        SizedBox(
-                          height: 40.0,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text(
-                              'Enter an email address to send your list of entries as a CSV attachment to.'),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0),
-                          child: Form(
-                            child: TextFormField(
-                              controller: exportEmailController,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter a valid email address';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                labelText: 'Email',
+                  children: Platform.isAndroid
+                      ? [
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 20.0,
                               ),
-                              enableSuggestions: false,
-                              autocorrect: false,
-                            ),
+                              Icon(FeatherIcons.send, size: 40),
+                              SizedBox(
+                                height: 40.0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0),
+                                child: Text(
+                                    'Enter an email address to send your list of entries as a CSV attachment to.'),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    15.0, 10.0, 15.0, 0),
+                                child: Form(
+                                  child: TextFormField(
+                                    controller: exportEmailController,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Please enter a valid email address';
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                      labelText: 'Email',
+                                    ),
+                                    enableSuggestions: false,
+                                    autocorrect: false,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 40.0,
-                      child: ElevatedButton(
-                        child: Text('SEND'),
-                        onPressed: () {
-                          ApiService.getEntryList(user.userToken)
-                              .then((response) {
-                            EmailCSV.sendEmail(
-                              user.username,
-                              exportEmailController.text,
-                              response,
-                            );
-                            Navigator.pop(context);
-                          });
-                        },
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).primaryColor)),
-                      ),
-                    )
-                  ],
+                          SizedBox(
+                            width: double.infinity,
+                            height: 40.0,
+                            child: ElevatedButton(
+                              child: Text('SEND'),
+                              onPressed: () {
+                                ApiService.getEntryList(user.userToken)
+                                    .then((response) {
+                                  EmailCSV.sendEmail(
+                                    user.username,
+                                    exportEmailController.text,
+                                    response,
+                                  );
+                                  Navigator.pop(context);
+                                });
+                              },
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Theme.of(context).primaryColor)),
+                            ),
+                          )
+                        ]
+                      : [
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Icon(FeatherIcons.send, size: 40),
+                          SizedBox(
+                            height: 40.0,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Text(
+                                'Unfortunately, at the moment, this feature is only available for Android devices. We hope to make it available for other platforms soon!'),
+                          ),
+                        ],
                 ),
               ),
             ],

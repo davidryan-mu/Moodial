@@ -36,6 +36,8 @@ dependencies:
   url_launcher: ^6.0.2
   flutter_launcher_icons: ^0.9.0
   flutter_svg: ^0.21.0-nullsafety.0
+  shared_preferences: ^2.0.3
+  after_layout: ^1.0.7+2
 
 flutter_icons:
   android: true
@@ -70,6 +72,10 @@ flutter:
     - assets/images/happy-emoji.svg
     - assets/images/sad-emoji.svg
     - assets/images/surprised-emoji.svg
+    - assets/images/avatar.png
+    - assets/images/welcome-screen.gif
+    - assets/images/mood-tracking.gif
+    - assets/images/in-your-own-time.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
