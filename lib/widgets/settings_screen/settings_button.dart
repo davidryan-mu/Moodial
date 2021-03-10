@@ -62,21 +62,23 @@ class _SettingsButtonState extends State<SettingsButton> {
                   child: icon,
                   width: 70,
                 ),
-                Container(
-                  width: 280,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        label,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                Expanded(
+                  child: Container(
+                    width: 280,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          label,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
                         ),
-                      ),
-                      Text(subtext),
-                    ],
+                        Text(subtext),
+                      ],
+                    ),
                   ),
                 )
               ],
