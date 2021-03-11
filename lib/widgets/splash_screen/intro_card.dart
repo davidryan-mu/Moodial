@@ -202,14 +202,3 @@ class _IntroCardState extends State<IntroCard> {
     );
   }
 }
-
-class CardInfo {
-  int cardNum;
-
-  CardInfo(this.cardNum);
-
-  String imagePath;
-  String header;
-  String text;
-  String buttonText;
-}

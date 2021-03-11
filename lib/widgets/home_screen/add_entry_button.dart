@@ -147,6 +147,92 @@ class _AddEntryButtonState extends State<AddEntryButton> {
                             ).then((response) {
                               this.callback(false);
                               Navigator.pop(context);
+                              showModalBottomSheet(
+                                  backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Stack(
+                                        alignment: Alignment.bottomCenter,
+                                        children: [
+                                          Container(
+                                            color: Color.fromRGBO(0, 0, 0, 0),
+                                            child: Container(
+                                              height: 330,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20)),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10.0,
+                                                        horizontal: 20.0),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      constraints:
+                                                          BoxConstraints(
+                                                        maxHeight: 120,
+                                                        maxWidth: 120,
+                                                      ),
+                                                      child: Image(
+                                                        image: AssetImage(
+                                                            'assets/images/sent.gif'),
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        'We got it!',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                          'Your entry has been successfully sent to our database. You can always come back and make changes or add information when you have time.'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SafeArea(
+                                            minimum: EdgeInsets.all(15),
+                                            child: SizedBox(
+                                              width: double.infinity,
+                                              height: 40.0,
+                                              child: ElevatedButton(
+                                                child: Text('OKAY'),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(Theme
+                                                                    .of(context)
+                                                                .primaryColor)),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  });
                             });
                           }
                         },

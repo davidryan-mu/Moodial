@@ -72,30 +72,32 @@ class _LandingScreenState extends State<LandingScreen> {
                         isLoggedIn: this.isLoggedIn,
                         user: this.user,
                       ),
-                Column(
-                  children: [
-                    Text(
-                      showSignUpForm
-                          ? 'Already using Moodial?'
-                          : 'New to Moodial?',
-                    ),
-                    OutlinedButton(
-                      child: Text(
-                        showSignUpForm
-                            ? 'Tap here to log in!'
-                            : 'Tap here to sign up!',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          showSignUpForm = !showSignUpForm;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+                // Temp disable registration for testing purposes
+                // Column(
+                //   children: [
+
+                //     // Text(
+                //     //   showSignUpForm
+                //     //       ? 'Already using Moodial?'
+                //     //       : 'New to Moodial?',
+                //     // ),
+                //     OutlinedButton(
+                //       child: Text(
+                //         showSignUpForm
+                //             ? 'Tap here to log in!'
+                //             : 'Tap here to sign up!',
+                //         style: TextStyle(
+                //           color: Theme.of(context).primaryColor,
+                //         ),
+                //       ),
+                //       onPressed: () {
+                //         setState(() {
+                //           showSignUpForm = !showSignUpForm;
+                //         });
+                //       },
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           )

@@ -142,6 +142,85 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                       ).then((response) {
                         this.callback(false);
                         Navigator.pop(context);
+                        showModalBottomSheet(
+                            backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Align(
+                                alignment: Alignment.topCenter,
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    Container(
+                                      color: Color.fromRGBO(0, 0, 0, 0),
+                                      child: Container(
+                                        height: 330,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 20.0),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                  maxHeight: 120,
+                                                  maxWidth: 120,
+                                                ),
+                                                child: Image(
+                                                  image: AssetImage(
+                                                      'assets/images/sent.gif'),
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  'We got it!',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                    'Your updates have been successfully sent to our database. You can always come back and make changes or add information when you have time.'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SafeArea(
+                                      minimum: EdgeInsets.all(15),
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        height: 40.0,
+                                        child: ElevatedButton(
+                                          child: Text('OKAY'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Theme.of(context)
+                                                          .primaryColor)),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            });
                       });
                     }
                   },
@@ -242,29 +321,32 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Medication:',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                      child: Container(
+                        constraints: BoxConstraints(maxWidth: 130),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Medication:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Text(entry.medication.name +
-                              ' - ' +
-                              entry.medication.dose),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          Text(
-                            'Diet:',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                            Text(entry.medication.name +
+                                ' - ' +
+                                entry.medication.dose),
+                            SizedBox(
+                              height: 15.0,
                             ),
-                          ),
-                          Text(entry.diet.food + ' - ' + entry.diet.amount),
-                        ],
+                            Text(
+                              'Diet:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(entry.diet.food + ' - ' + entry.diet.amount),
+                          ],
+                        ),
                       ),
                     ),
                   ],

@@ -44,6 +44,7 @@ class _CalendarState extends State<Calendar> {
         thisMonthDayBorderColor: Colors.transparent,
         weekFormat: false,
         markedDatesMap: _markedDateMap,
+        markedDateIconMaxShown: 7,
         height: 390.0,
         selectedDateTime: _currentDate,
         daysHaveCircularBorder: true,
@@ -79,10 +80,12 @@ class _CalendarState extends State<Calendar> {
           Event(
             id: entry.id,
             date: DateTime.parse(entry.date),
-            dot: Container(
-              width: 10,
-              height: 10,
-              child: MoodProps.moodEmoji(entry.mood),
+            dot: Expanded(
+              child: Container(
+                width: 10,
+                height: 10,
+                child: MoodProps.moodEmoji(entry.mood),
+              ),
             ),
           ));
     });

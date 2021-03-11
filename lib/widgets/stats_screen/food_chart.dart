@@ -211,25 +211,30 @@ class Indicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          height: 10,
-          width: 10,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
+    return Container(
+      constraints: BoxConstraints(maxWidth: 50),
+      child: Row(
+        children: [
+          Container(
+            height: 10,
+            width: 10,
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+            ),
           ),
-        ),
-        SizedBox(width: 5),
-        Text(
-          text,
-          style: TextStyle(
-            color: Color(0xff7589a2),
-            fontSize: 13,
+          SizedBox(width: 5),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Color(0xff7589a2),
+                fontSize: 13,
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

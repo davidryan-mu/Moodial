@@ -1,6 +1,7 @@
 import 'package:Moodial/models/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class MoodHistoryChart extends StatefulWidget {
@@ -55,7 +56,7 @@ class _MoodHistoryChartState extends State<MoodHistoryChart> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
+          getTextStyles: (value) => GoogleFonts.montserrat(
             color: Color(0xff68737d),
             fontSize: 12,
           ),
@@ -67,8 +68,9 @@ class _MoodHistoryChartState extends State<MoodHistoryChart> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            fontSize: 15,
+          getTextStyles: (value) => GoogleFonts.montserrat(
+            color: Color(0xff68737d),
+            fontSize: 16,
           ),
           getTitles: (value) {
             switch (value.toInt()) {
