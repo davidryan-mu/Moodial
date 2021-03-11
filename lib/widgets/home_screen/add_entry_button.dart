@@ -63,11 +63,7 @@ class _AddEntryButtonState extends State<AddEntryButton> {
         vertical: 10.0,
       ),
       child: ElevatedButton(
-        child: Text('Add Entry',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15.0,
-            )),
+        child: Text('Add Entry'),
         onPressed: () {
           showModalBottomSheet(
             backgroundColor: Color.fromRGBO(0, 0, 0, 0),
@@ -173,7 +169,7 @@ class _AddEntryButtonState extends State<AddEntryButton> {
                                                     const EdgeInsets.symmetric(
                                                         vertical: 10.0,
                                                         horizontal: 20.0),
-                                                child: Column(
+                                                child: ListView(
                                                   children: [
                                                     Container(
                                                       constraints:

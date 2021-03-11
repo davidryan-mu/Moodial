@@ -165,7 +165,7 @@ class _RecentEntryCardState extends State<RecentEntryCard> {
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 10.0, horizontal: 20.0),
-                                          child: Column(
+                                          child: ListView(
                                             children: [
                                               Container(
                                                 constraints: BoxConstraints(
