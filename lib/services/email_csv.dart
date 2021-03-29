@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Moodial/services/mood_props.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:csv/csv.dart';
@@ -23,7 +24,7 @@ class EmailCSV {
     entryList.forEach((entry) {
       headers.add(entry.id);
       datetimes.add(entry.date + ' ' + entry.time);
-      moods.add(getMood(entry.mood));
+      moods.add(MoodProps.moodValueToString(entry.mood));
       sleeps.add(entry.sleep.toString() + ' hours sleep');
       iritability.add(entry.iritability.toString() + '/10 iritability');
       medicationHeaders.add('MEDICATION');
@@ -79,26 +80,5 @@ class EmailCSV {
     await FlutterEmailSender.send(email);
 
     return true;
-  }
-
-  static String getMood(value) {
-    switch (value) {
-      case 1:
-        return 'Happy';
-      case 2:
-        return 'Sad';
-      case 3:
-        return 'Surprised';
-      case 4:
-        return 'Disgusted';
-      case 5:
-        return 'Angry';
-      case 6:
-        return 'Fearful';
-      case 7:
-        return 'Bad';
-      default:
-        return 'error';
-    }
   }
 }
