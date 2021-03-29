@@ -12,7 +12,7 @@ Mood tracking is a technique in positive psychology that includes the tracking, 
 
 This project involves the development of the front-end and the design of an appropriate user interface for the given context. The app will communicate with a database via an API that has been created in a past student’s final year project. Flutter, developed by Google and built on the Dart language, was chosen as a framework for cross-platform mobile application development. Flutter is unique and extremely powerful in that one codebase is all that is needed to build for both iOS and Android. The API from the past project was developed as a Python web application using Flask as a framework.
 
-![Home screen of app](https://i.imgur.com/HjwjcsM.png)![Home screen of app](https://i.imgur.com/HjwjcsM.png)
+![Home screen of app](https://i.imgur.com/HjwjcsM.png)
 
 ## Installation
 
