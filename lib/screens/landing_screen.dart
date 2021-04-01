@@ -74,11 +74,11 @@ class _LandingScreenState extends State<LandingScreen> {
                       ),
                 Column(
                   children: [
-                    // Text(
-                    //   showSignUpForm
-                    //       ? 'Already using Moodial?'
-                    //       : 'New to Moodial?',
-                    // ),
+                    Text(
+                      showSignUpForm
+                          ? 'Already using Moodial?'
+                          : 'New to Moodial?',
+                    ),
                     OutlinedButton(
                       child: Text(
                         showSignUpForm
